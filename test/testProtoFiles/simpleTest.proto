@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+service SimpleTestService {
+  rpc GetTestMessage(TestMessageRequest) returns (TestMessageReply) {}
+
+  rpc ThrowError(ErrorRequest) returns (ErrorReply) {}
+}
+
+message TestMessageRequest {
+  string message = 1;
+}
+
+message TestMessageReply {
+  string message = 1;
+}
+
+message ErrorRequest {}
+
+message ErrorReply {
+  string message = 1;
+}

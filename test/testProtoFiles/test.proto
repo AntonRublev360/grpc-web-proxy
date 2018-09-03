@@ -1,0 +1,11 @@
+syntax = "proto3";
+import "./messages/GetTestMessage.proto";
+import "./messages/ThrowError.proto";
+
+package test.v0;
+
+service TestService {
+  rpc GetTestMessage(TestMessageRequest) returns (TestMessageReply) {}
+
+  rpc ThrowError(ErrorRequest) returns (ErrorReply) {}
+}

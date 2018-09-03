@@ -6,12 +6,13 @@
   "scripts": {
     "audit": "npm audit",
     "build": "next build",
+    "cov": "opener coverage/index.html",
     "dev": "node index.js",
     "lint": "standard | snazzy",
     "start": "NODE_ENV=production node index.js",
-    "test": "npm run build && NODE_ENV=test jest --env=node",
-    "test-changes": "npm run build && NODE_ENV=test jest --env=node --watch --no-coverage",
-    "watch-test": "npm run build && NODE_ENV=test jest --env=node --watchAll"
+    "test": "npm run build && NODE_ENV=test jest",
+    "test-changes": "npm run build && NODE_ENV=test jest --watch --no-coverage",
+    "watch-test": "npm run build && NODE_ENV=test jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,26 @@
     "env": [
       "jest"
     ]
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      ".next"
+    ],
+    "coverageReporters": [
+      "html",
+      "text-summary"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "testEnvironment": "node",
+    "verbose": true
   },
   "keywords": [
     "grpc",
@@ -36,16 +57,21 @@
   "homepage": "https://github.com/AntonRublev360/grpc-web-ui#readme",
   "devDependencies": {
     "jest": "^23.5.0",
+    "opener": "^1.5.1",
     "pre-commit": "^1.2.2",
     "snazzy": "^8.0.0",
     "standard": "^12.0.1",
     "supertest": "^3.1.0"
   },
   "dependencies": {
+    "@grpc/proto-loader": "^0.3.0",
+    "body-parser": "^1.18.3",
     "bunyan": "^1.8.12",
     "compression": "^1.7.3",
     "express": "^4.16.3",
+    "grpc": "^1.14.1",
     "helmet": "^3.13.0",
+    "lodash": "^4.17.10",
     "next": "^6.1.1",
     "rc": "^1.2.8",
     "react": "^16.4.2",
