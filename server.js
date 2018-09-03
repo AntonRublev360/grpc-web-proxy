@@ -3,9 +3,13 @@ const express = require('express')
 // const favicon = require('serve-favicon')
 const helmet = require('helmet')
 const next = require('next')
+const getGrpcClient = require('./grpcClient/index')
+const getGrpcRequestProxy = require('./grpcRequestProxy/index')
+const bodyParser = require('body-parser')
 
 module.exports = async function startServer ({ config, dev, log }) {
   log.info(`${config.name} is starting on port: ${config.port}`)
+  /* istanbul ignore next */
   try {
     const nextApp = next({ dev })
     await nextApp.prepare()
@@ -32,6 +36,7 @@ async function initExpressServer ({ config, log, nextApp }) {
 function listen (expressApp, port) {
   return new Promise((resolve, reject) => {
     const server = expressApp.listen(port, (err) => {
+      /* istanbul ignore next */
       if (err) {
         reject(err)
       } else {
@@ -49,6 +54,10 @@ function configureMiddleware ({ expressApp, log, config }) {
 }
 
 function configureRoutes ({ expressApp, nextApp }) {
+  const grpcRequestProxy = getGrpcRequestProxy(getGrpcClient)
+  expressApp.post('/connect', bodyParser.json(), grpcRequestProxy.connect)
+  expressApp.post('/disconnect', grpcRequestProxy.disconnect)
+  expressApp.post('/execute', bodyParser.json(), grpcRequestProxy.handle)
   const nextJsRequestHandler = nextApp.getRequestHandler()
   expressApp.use(nextJsRequestHandler)
 }
