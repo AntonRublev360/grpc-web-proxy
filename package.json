@@ -26,7 +26,8 @@
   "jest": {
     "collectCoverage": true,
     "coveragePathIgnorePatterns": [
-      ".next"
+      ".next",
+      "test"
     ],
     "coverageReporters": [
       "html",
