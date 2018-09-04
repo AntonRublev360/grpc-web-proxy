@@ -1,44 +1,70 @@
 'use strict'
 
 function getGrpcRequestProxy (getGrpcClient) {
-  let client
+  let connection
 
   async function connect (req, res, next) {
-    const {
-      address,
-      credentials,
-      options,
-      pathToProtoFile,
-      servicePath
-    } = req.body
-    client = await getGrpcClient({
-      address,
-      credentials,
-      options,
-      pathToProtoFile,
-      servicePath
-    })
-    const methods = getMethodsDescriptions(client.definition)
-    res.json({
-      address,
-      methods,
-      pathToProtoFile,
-      servicePath
-    })
+    try {
+      disconnectIfConnected()
+      const {
+        address,
+        credentials,
+        options,
+        pathToProtoFile,
+        servicePath
+      } = req.body
+      const grpcClient = await getGrpcClient({
+        address,
+        credentials,
+        options,
+        pathToProtoFile,
+        servicePath
+      })
+      connection = {
+        client: grpcClient.client,
+        description: {
+          address,
+          methods: getMethodsDescriptions(grpcClient.definition),
+          pathToProtoFile,
+          servicePath
+        }
+      }
+      res.json(connection.description)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  function disconnectIfConnected () {
+    if (connection) {
+      connection.client.close()
+      connection = null
+    }
   }
 
   function disconnect (req, res, next) {
-    client.client.close()
-    client = null
+    try {
+      disconnectIfConnected()
+      res.send(200)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  async function getInfo (req, res, next) {
+    if (!connection) {
+      return next(getNotConnectedError())
+    }
+    res.json(connection.description)
   }
 
   async function handle (req, res, next) {
     const { methodName, params } = req.body
-    if (!client) {
-      next(new Error('Not connected. POST /connect to connect to a grpc service'))
+    if (!connection) {
+      return next(getNotConnectedError())
     }
     try {
-      const result = await makeUnaryCall(client.client, methodName, params)
+      const result = await makeUnaryCall(connection.client, methodName, params)
       res.json({ result })
     } catch (err) {
       next(err)
@@ -48,7 +74,8 @@ function getGrpcRequestProxy (getGrpcClient) {
   return {
     connect,
     disconnect,
-    handle
+    handle,
+    getInfo
   }
 }
 
@@ -67,6 +94,10 @@ async function makeUnaryCall (client, method, params) {
       }
     })
   })
+}
+
+function getNotConnectedError () {
+  return new Error('Not connected. POST /connect to connect to a grpc service')
 }
 
 module.exports = getGrpcRequestProxy

@@ -58,6 +58,7 @@ function configureRoutes ({ expressApp, nextApp }) {
   expressApp.post('/connect', bodyParser.json(), grpcRequestProxy.connect)
   expressApp.post('/disconnect', grpcRequestProxy.disconnect)
   expressApp.post('/execute', bodyParser.json(), grpcRequestProxy.handle)
+  expressApp.get('/connection', grpcRequestProxy.getInfo)
   const nextJsRequestHandler = nextApp.getRequestHandler()
   expressApp.use(nextJsRequestHandler)
 }
