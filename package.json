@@ -1,6 +1,6 @@
 {
   "name": "grpc-web-proxy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Web UI for interacting with gRPC services",
   "bin": {
     "grpc-web-proxy": "./index.js"
