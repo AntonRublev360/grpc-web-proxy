@@ -1,6 +1,6 @@
 const { stdSerializers } = require('bunyan')
 const name = 'grpc-web-ui'
-module.exports = require('rc')(name, {
+module.exports = {
   log: {
     name,
     serializers: stdSerializers,
@@ -8,4 +8,4 @@ module.exports = require('rc')(name, {
   },
   name,
   port: 8080
-})
+}
