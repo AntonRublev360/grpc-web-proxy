@@ -1,9 +1,9 @@
 {
   "name": "grpc-web-proxy",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Web UI for interacting with gRPC services",
   "bin": {
-    "grpc-web-ui": "./index.js"
+    "grpc-web-proxy": "./index.js"
   },
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,6 @@
     "cov": "opener coverage/index.html",
     "dev": "node index.js",
     "lint": "standard | snazzy",
-    "postinstall": "npm run build",
     "start": "NODE_ENV=production node index.js",
     "test": "npm run build && NODE_ENV=test jest",
     "test-changes": "npm run build && NODE_ENV=test jest --watch --no-coverage",
