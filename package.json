@@ -2,6 +2,9 @@
   "name": "grpc-web-ui",
   "version": "0.0.0",
   "description": "Web UI for interacting with gRPC services",
+  "bin": {
+    "grpc-web-ui": "./index.js"
+  },
   "main": "index.js",
   "scripts": {
     "audit": "npm audit",
@@ -9,6 +12,7 @@
     "cov": "opener coverage/index.html",
     "dev": "node index.js",
     "lint": "standard | snazzy",
+    "postinstall": "npm run build",
     "start": "NODE_ENV=production node index.js",
     "test": "npm run build && NODE_ENV=test jest",
     "test-changes": "npm run build && NODE_ENV=test jest --watch --no-coverage",
@@ -74,10 +78,10 @@
     "helmet": "^3.13.0",
     "lodash": "^4.17.10",
     "next": "^6.1.1",
-    "rc": "^1.2.8",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "yargs": "^12.0.1"
   },
   "pre-commit": [
     "lint",
