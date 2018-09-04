@@ -1,5 +1,5 @@
 {
-  "name": "grpc-web-ui",
+  "name": "grpc-web-proxy",
   "version": "0.0.0",
   "description": "Web UI for interacting with gRPC services",
   "bin": {
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AntonRublev360/grpc-web-ui.git"
+    "url": "git+https://github.com/AntonRublev360/grpc-web-proxy.git"
   },
   "standard": {
     "env": [
@@ -52,14 +52,15 @@
     "grpc",
     "web",
     "ui",
+    "proxy",
     "javascript"
   ],
   "author": "anton.v.rublev@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AntonRublev360/grpc-web-ui/issues"
+    "url": "https://github.com/AntonRublev360/grpc-web-proxy/issues"
   },
-  "homepage": "https://github.com/AntonRublev360/grpc-web-ui#readme",
+  "homepage": "https://github.com/AntonRublev360/grpc-web-proxy#readme",
   "devDependencies": {
     "jest": "^23.5.0",
     "opener": "^1.5.1",
