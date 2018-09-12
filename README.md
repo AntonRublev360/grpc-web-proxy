@@ -1,5 +1,5 @@
 # grpc-web-proxy
-A web ui for interacting with gRPC services
+An api to proxy gRPC and a web ui for interacting with gRPC services
 
 ## Installation
 
